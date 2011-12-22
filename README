@@ -1,1 +1,3 @@
 RPM build for Pentaho BI Server
+
+Based on jenkins rpm build (https://github.com/jenkinsci/jenkins/tree/master/rpm)

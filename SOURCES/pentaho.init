@@ -56,7 +56,7 @@ $0 stop
 $0 start
 ;;
     force-reload)
-echo -n "Reload service Jenkins "
+echo -n "Reload service Pentaho "
 $0 try-restart
 ;;
     reload)
