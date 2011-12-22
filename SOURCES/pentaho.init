@@ -1,0 +1,74 @@
+#!/bin/sh
+# chkconfig:    345 24 76
+
+### BEGIN INIT INFO
+# Provides: pentaho
+# Required-Start: $local_fs $remote_fs $network $time $named
+# Should-Start: $time sendmail
+# Required-Stop: $local_fs $remote_fs $network $time $named
+# Should-Stop: $time sendmail
+# Default-Start: 3 5
+# Default-Stop: 0 1 2 6
+# Short-Description: Pentaho BI server
+# Description: Start the Pentaho BI server
+### END INIT INFO
+
+PENTAHO_PID_FILE="/var/run/pentaho.pid"
+
+# Source function library.
+. /etc/init.d/functions
+
+# Search usable Java. We do this because various reports indicated
+# that /usr/bin/java may not always point to Java 1.5
+# see http://www.nabble.com/guinea-pigs-wanted-----Hudson-RPM-for-RedHat-Linux-td25673707.html
+
+RETVAL=0
+
+case "$1" in
+    start)
+echo -n "Starting Pentaho "
+export CATALINA_PID=$PENTAHO_PID_FILE
+daemon --user "pentaho" /opt/pentaho-biserver/start.sh > /dev/null
+RETVAL=$?
+if [ $RETVAL = 0 ]; then
+success
+fi
+;;
+    stop)
+echo -n "Shutting down Pentaho "
+/opt/pentaho-biserver/stop.sh > /dev/null
+RETVAL=$?
+echo
+;;
+    try-restart|condrestart)
+if test "$1" = "condrestart"; then
+echo "${attn} Use try-restart ${done}(LSB)${attn} rather than condrestart ${warn}(RH)${norm}"
+fi
+$0 status
+if test $? = 0; then
+$0 restart
+else
+: # Not running is not a failure.
+fi
+;;
+    restart)
+$0 stop
+$0 start
+;;
+    force-reload)
+echo -n "Reload service Jenkins "
+$0 try-restart
+;;
+    reload)
+     $0 restart
+;;
+    status)
+     status pentaho
+RETVAL=$?
+;;
+    *)
+echo "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload|probe}"
+exit 1
+;;
+esac
+exit $RETVAL
