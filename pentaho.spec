@@ -9,13 +9,25 @@ URL:		http://www.pentaho.com
 Source:		http://downloads.sourceforge.net/project/pentaho/BusinessIntelligenceServer/%{version}-stable/biserver-ce-%{version}-stable.tar.gz
 Source1:	pentaho.init
 Source2:	pentaho.pid
+Source3:	postgresql-9.0-802.jdbc3.jar
+Source4:	ojdbc14.jar
+Source5:	orai18n.jar
+Source6:        sqlitejdbc-v037-nested.jar
+Source7:        mysql-connector-java-3.1.14-bin.jar
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 Requires:	/usr/sbin/groupadd /usr/sbin/useradd
 Requires: 	java >= 1:1.6.0
 BuildArch:	noarch
 
 %description
+%{summary}
 
+%package        jdbc-drivers
+Summary:        jdbc drivers for pentaho
+Group:          Applications/Database
+Requires:       %{name}
+%description    jdbc-drivers
+%{summary}
 
 %prep
 %setup -q -n biserver-ce
@@ -33,6 +45,11 @@ rm -rf $RPM_BUILD_ROOT
 %__install -D -m0755 "set-pentaho-env.sh" "%{buildroot}%{_prefix}/set-pentaho-env.sh"
 
 cp -pr tomcat "%{buildroot}%{_prefix}"
+%__install -D -m0644 "%{SOURCE3}" "%{buildroot}%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib"
+%__install -D -m0644 "%{SOURCE4}" "%{buildroot}%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib"
+%__install -D -m0644 "%{SOURCE5}" "%{buildroot}%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib"
+%__install -D -m0644 "%{SOURCE6}" "%{buildroot}%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib"
+%__install -D -m0644 "%{SOURCE7}" "%{buildroot}%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib"
 cp -pr pentaho-solutions "%{buildroot}%{_prefix}"
 cp -pr data "%{buildroot}%{_prefix}"
 
@@ -40,11 +57,11 @@ cp -pr data "%{buildroot}%{_prefix}"
 rm -rf $RPM_BUILD_ROOT
 
 
+
 %files
 %defattr(-,pentaho,pentaho,-)
 %attr(0755,pentaho,pentaho) %dir %{_prefix}
 %doc
-%dir %{_prefix}
 %{_prefix}/start.sh
 %{_prefix}/stop.sh
 %{_prefix}/set-pentaho-env.sh
@@ -57,6 +74,15 @@ rm -rf $RPM_BUILD_ROOT
 %exclude %{_prefix}/tomcat/bin/*.exe
 %exclude %{_prefix}/tomcat/bin/*.tar.gz
 %exclude %{_prefix}/tomcat/bin/*.dll
+
+%files jdbc-drivers
+%defattr(-,pentaho,pentaho,-)
+%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib/postgresql-9.0-802.jdbc3.jar
+%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib/mysql-connector-java-3.1.14-bin.jar
+%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib/ojdbc14.jar
+%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib/orai18n.jar
+%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib/sqlitejdbc-v037-nested.jar
+%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib/postgresql-9.0-802.jdbc3.jar
 
 %pre
 /usr/sbin/groupadd -r pentaho &>/dev/null || :
