@@ -1,8 +1,9 @@
 %define _prefix /opt/pentaho-biserver
+%define _prefix_admin /opt/pentaho-biserver-admin
 
 Name:		pentaho-biserver
 Version:	%{ver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Pentaho BI server
 License:	GPL
 URL:		http://www.pentaho.com
@@ -52,6 +53,7 @@ cp -pr tomcat "%{buildroot}%{_prefix}"
 %__install -D -m0644 "%{SOURCE7}" "%{buildroot}%{_prefix}/tomcat/webapps/pentaho/WEB-INF/lib"
 cp -pr pentaho-solutions "%{buildroot}%{_prefix}"
 cp -pr data "%{buildroot}%{_prefix}"
+cp -pr ../administration-console "%{buildroot}%{_prefix_admin}"
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -68,6 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/tomcat
 %{_prefix}/pentaho-solutions
 %{_prefix}/data
+%{_prefix_admin}
 /etc/init.d/pentaho
 /var/run/pentaho.pid
 %exclude %{_prefix}/tomcat/bin/*.bat
@@ -107,6 +110,9 @@ fi
 exit 0
 
 %changelog
+* Tue Dec 23 2011 Jean-Francois Roche <jfroche@affinitic.be>
+- Add administration console server
+
 * Tue Dec 20 2011 Jean-Francois Roche <jfroche@affinitic.be>
 - Initial implementation
 
