@@ -72,6 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/generateClusterSchema.sh
 %{_prefix}/kitchen.sh
 %{_prefix}/pan.sh
+%{_prefix}/set-pentaho-env.sh
 
 %{_prefix}/launcher
 %{_prefix}/lib
