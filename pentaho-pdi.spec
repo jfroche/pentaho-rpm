@@ -50,6 +50,7 @@ cp -pr simple-jndi "%{buildroot}%{_prefix}"
 %__install -D -m0755 "generateClusterSchema.sh" "%{buildroot}%{_prefix}/generateClusterSchema.sh"
 %__install -D -m0755 "kitchen.sh" "%{buildroot}%{_prefix}/kitchen.sh"
 %__install -D -m0755 "pan.sh" "%{buildroot}%{_prefix}/pan.sh"
+%__install -D -m0755 "set-pentaho-env.sh" "%{buildroot}%{_prefix}/set-pentaho-env.sh"
 
 %__install -D -m0644 "%{SOURCE1}" "%{buildroot}%{_prefix}/libext/JDBC"
 %__install -D -m0644 "%{SOURCE2}" "%{buildroot}%{_prefix}/libext/JDBC"
