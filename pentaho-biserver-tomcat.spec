@@ -70,8 +70,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc
 %{_prefix}/pentaho-solutions
 %{_prefix}/data
-%{CATALINA_HOME}/lib
-%{CATALINA_HOME}/webapps
+%{CATALINA_HOME}/webapps/pentaho
+%{CATALINA_HOME}/webapps/pentaho-style
+%{CATALINA_HOME}/webapps/sw-style
 %{_prefix_admin}
 
 %files jdbc-drivers-tomcat
