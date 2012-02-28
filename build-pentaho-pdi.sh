@@ -20,6 +20,6 @@ if [ ! -f SOURCES/sqlitejdbc-v037-nested.jar ];
 then
     wget http://10.0.50.18/jdbc/sqlitejdbc-v037-nested.jar -O SOURCES/sqlitejdbc-v037-nested.jar
 fi
-rm -rf BUILD RPMS SRPMS tmp || true
+rm -rf BUILD SRPMS tmp || true
 mkdir -p BUILD RPMS SRPMS
 rpmbuild -ba --define="_topdir $PWD" --define="_tmppath $PWD/tmp" --define="ver $version" pentaho-pdi.spec
